@@ -1,22 +1,18 @@
-# Local-Earthquake-activity
-An EXAMPLE for a HCI 584 app that shows earthquake activity around a given location.
+# HCI 584X Course 
+Plane Crash Data Science Project
 
 - sketch.md: my sketch
 - spec.md: my spec
 
 ### Version 1
-- solve the core issues (which MUST be solved) first and wrap a mini test example around it
-    - get a table with quake data (time, magnitude, etc.) for quakes within a radius of a location
-    - sort by magnitude 
-    - simulate user input via hardcoding values
-    - put results on map in some form  
+- TBD
 
 Project structure:
 - main.py - python file to be run/debug
-- Documentation - folder of offcial documentation (later) 
-- tmp - holds temporary files
-- templates - flask template files
-- static - flask asset files
+- Documentation - folder of official documentation (later) 
+- tmp - TBD
+- templates - TBD
+- static - TBD
 
 
 
