@@ -18,4 +18,41 @@ Could change the dates to select a specific time frame.
 There could be interactions by the user by selecting specific "points" on the graph to get a summary of the specific crash(es).
 Could include zooming.
 
+## Task Vignettes
+
+Task 1: Filter by date and magnitude ranges
+
+location will be given automatically
+User configurable fields:
+date range: default 1900 to current, only uses years!
+magnitude range: defaults to 7 to 9.5
+radius: 10 miles
+Task 1 user activity:
+
+user starts app, fetches and shows quakes as per defaults
+user enters start (1950) and end (2022) years (Validate GUI: start < end!)
+user enters magnitude high (9.5) and low (7.2) (Validate: high > low)
+user enters radius: 50 miles
+user leaves num_quakes toggle off, num_quakes is greyed out
+user hits Refresh Map, which connects to the USGS (show spinner while processing) and changes the map markers and radius accordingly and updates the map legend to show which size corresponds
+Task 2: Filter by date range and X largest magnitude quakes
+
+location will be given automatically
+User configurable fields:
+date range: default 1900 to current, only uses years!
+radius: 10 miles
+show number of X largest quakes number field (10), initally toggled off
+
+Task 2 user activity:
+
+   * user starts app, fetches and shows quakes as per defaults
+   * user enters start (1950) and end (2022) years (Validate GUI: start < end!)
+   * skips magnitude selection
+   * user enters radius: 50 miles
+   * user switched num_quakes toggle oon, num_quakes is now active (default: 10 largest quakes) and magnitude is inactive
+   * user enters num_quakes: 25
+   * user hits Refresh Map, which connects to the USGS (show spinner while processing) and changes the map markers and radius accordingly and updates the   map legend to show which size corresponds
+
+Diagram:
+
 
