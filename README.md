@@ -5,11 +5,11 @@ Plane Crash Data Science Project
 - spec.md: my spec
 
 ### Version 1
-- TBD
+- in Progress
 
 Project structure:
 - main.py - python file to be run/debug
-- Documentation - folder of official documentation (later) 
+- Documentation - folder of official documentation
 - tmp - TBD
 - templates - TBD
 - static - TBD
