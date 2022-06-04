@@ -20,44 +20,43 @@ Could include zooming.
 
 ## Task Vignettes
 
+Sketch (example, created in Photoshop):
+
+![Sketch2](https://user-images.githubusercontent.com/106708967/172018147-d56804a9-4c11-4d2f-9eaa-1bd1a65603ea.jpg)
+
 Task 1: Filter by countries
 
-   * location will be given automatically
+   * defaults/previous filters automatically loaded
    * User configurable fields:
-     * date range: default 1900 to current, only uses years!
-     * magnitude range: defaults to 7 to 9.5
-     * radius: 10 miles
+     * countries selected: (Countries)
 
-Task 1 user activity:
+Task 1 User activity:
 
-   * user starts app, fetches and shows the default countries and data points selected as per defaults
+   * user starts webapp, fetches and shows the countries and data points selected as per defaults
    * user selects the drop-down to filter by country
-   * user enters magnitude high (9.5) and low (7.2) (Validate: high > low)
-   * user enters radius: 50 miles
-   * user leaves num_quakes toggle off, num_quakes is greyed out
-   * user hits Refresh Map, which connects to the USGS (show spinner while processing) and changes the map markers and radius accordingly and updates the map legend to show which size corresponds]
+   * user selects/deselects whichever countries they would like
+   * user hits Refresh, and the webapp reflects the new filters.
 
-Task 2: Filter by date range and X largest magnitude quakes
+Task 2: Filter by crash cause
 
-   * location will be given automatically
+   * defaults/previous filters automatically loaded
    * User configurable fields:
-   * date range: default 1900 to current, only uses years!
-   * radius: 10 miles
-   * show number of X largest quakes number field (10), initally toggled off
+     * crash cause: Technical Failure, Weather, Human Error, Terrorism, Unknown
 
 Task 2 user activity:
 
-   * user starts app, fetches and shows quakes as per defaults
-   * user enters start (1950) and end (2022) years (Validate GUI: start < end!)
-   * skips magnitude selection
-   * user enters radius: 50 miles
-   * user switched num_quakes toggle oon, num_quakes is now active (default: 10 largest quakes) and magnitude is inactive
-   * user enters num_quakes: 25
-   * user hits Refresh Map, which connects to the USGS (show spinner while processing) and changes the map markers and radius accordingly and updates the   map legend to show which size corresponds
+   * user starts webapp, fetches and shows the countries and data points selected as per defaults
+   * user selects the drop-down to filter by crash cause
+   * user selects/deselects whichever crash causes they would like
+   * user hits Refresh, and the webapp reflects the new filters.
 
-Sketch:
+Tasks 3-X:
 
-![Sketch2](https://user-images.githubusercontent.com/106708967/172018147-d56804a9-4c11-4d2f-9eaa-1bd1a65603ea.jpg)
+   * Identicaly to Task 1, Task 2
+   * Filters possible:
+     * Flight phase, Operator, Crash site, Crash locationm, Fatalities, Survivors
+
+
 
 
 
