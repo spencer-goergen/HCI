@@ -6,7 +6,7 @@ This will show a user plane crashes around the world since 1918. There is a vari
 App shows a simple line graph between the years 1918 to 2022, with a y-axis of number of crashes.
 The user should be able to filter/refine settings between the variety of columns.
 
-External:
+External: /n
 Data is found at https://www.kaggle.com/datasets/abeperez/historical-plane-crash-data and saved locally in the application.
 GUI: Webpage style app. I am unsure what module/API would help me accomplish this at this time.
 APIs: Pandas, NumPy, Matplotlib, Seaborn. (One or multiple of these, probably!)
