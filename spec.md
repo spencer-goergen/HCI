@@ -20,7 +20,7 @@ Could include zooming.
 
 ## Task Vignettes
 
-Task 1: Filter by date and magnitude ranges
+Task 1: Filter by countries
 
    * location will be given automatically
    * User configurable fields:
@@ -30,8 +30,8 @@ Task 1: Filter by date and magnitude ranges
 
 Task 1 user activity:
 
-   * user starts app, fetches and shows quakes as per defaults
-   * user enters start (1950) and end (2022) years (Validate GUI: start < end!)
+   * user starts app, fetches and shows the default countries and data points selected as per defaults
+   * user selects the drop-down to filter by country
    * user enters magnitude high (9.5) and low (7.2) (Validate: high > low)
    * user enters radius: 50 miles
    * user leaves num_quakes toggle off, num_quakes is greyed out
@@ -57,8 +57,7 @@ Task 2 user activity:
 
 Sketch:
 
-![Sketch1](https://user-images.githubusercontent.com/106708967/172018006-b9ec188d-e080-4647-af00-a792cd5d9d30.jpg)
-
+![Sketch2](https://user-images.githubusercontent.com/106708967/172018147-d56804a9-4c11-4d2f-9eaa-1bd1a65603ea.jpg)
 
 
 
