@@ -57,6 +57,41 @@ Tasks 3-X:
      * Flight phase, Operator, Crash site, Crash locationm, Fatalities, Survivors
 
 
+## Technical Flow
+
+
+Data structures: 
+    - pandas dataframe, each containing data about each quake (date, lat/long location, magnitude) that's been scarped from the USGS
+    - a dict or object that stores all the current values for all application form fields: data range, magnitude range, radius, num_quakes, toggle, etc. 
+    - default values for these could be hard coded or read from a config.txt file
+    - dict/object with any other values the application needs, that are NOT user configurable, e.g. the current location, which is provided at startup from the geolocation function, a scale factor for the markers, geometry/color or the markers, etc.
+
+
+Core functions:
+- def get_location():
+    - uses geolocation to approximate current browser geolocation 
+    - not sure yet if/how user concent is needed?
+    - returns geolocation (lat/long) or error string (hardcode Chicago as backup location on fail)
+
+- def get_quake_data(date_range, magnitude_range, number_of_largest_quakes, radius):
+    - scrapes data from the USGS according to arguments
+    - if number_of_largest_quakes is None, magnitude range is used
+    - should still be limited to ~100 quakes to ensure a responsive map (in which case they should be sorted by magnitude!)
+    - returns a pandas dataframe or error string
+
+- def draw_map(folium_map, dataframe, config_dict):
+    - draws markers from the dataframe into a folium map
+    - config_dict has stuff like scale factor, marker geometry and color, etc.
+    - needs to also update the map legend
+
+
+Program flow:
+- Flask app main page creates the GUI, gets geolocation and renders the folium map for this location with current GUI defaults using the dataframe
+- (GUI could be vanilla Javascript or maybe Bootstrap ...)
+- changes in GUI fields are collected in a HTML form and sent back to the server
+- scrapes a new dataframe according to user values, clears folium map and re-draws it from new dataframe
+
+
 
 
 
