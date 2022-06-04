@@ -61,8 +61,8 @@ Tasks 3-X:
 
 
 Data structures: 
-    - pandas dataframe (I think?), each containing data about each crash (date, location, fatalities, etc) that's been grabbed in .csv file
-    - a dict that stores all the current values for all the necessary fields
+- pandas dataframe (I think?), each containing data about each crash (date, location, fatalities, etc) that's been grabbed in .csv file
+- a dict that stores all the current values for all the necessary fields
 
 Core functions:
 
