@@ -1,4 +1,4 @@
-# Example of a light planning spec for my sketch
+# Plane Crashes Light Project Spec 
 
  ## General Description
 
@@ -22,26 +22,28 @@ Could include zooming.
 
 Task 1: Filter by date and magnitude ranges
 
-location will be given automatically
-User configurable fields:
-date range: default 1900 to current, only uses years!
-magnitude range: defaults to 7 to 9.5
-radius: 10 miles
+   * location will be given automatically
+   * User configurable fields:
+   ** date range: default 1900 to current, only uses years!
+   ** magnitude range: defaults to 7 to 9.5
+   ** radius: 10 miles
+
 Task 1 user activity:
 
-user starts app, fetches and shows quakes as per defaults
-user enters start (1950) and end (2022) years (Validate GUI: start < end!)
-user enters magnitude high (9.5) and low (7.2) (Validate: high > low)
-user enters radius: 50 miles
-user leaves num_quakes toggle off, num_quakes is greyed out
-user hits Refresh Map, which connects to the USGS (show spinner while processing) and changes the map markers and radius accordingly and updates the map legend to show which size corresponds
+   * user starts app, fetches and shows quakes as per defaults
+   * user enters start (1950) and end (2022) years (Validate GUI: start < end!)
+   * user enters magnitude high (9.5) and low (7.2) (Validate: high > low)
+   * user enters radius: 50 miles
+   * user leaves num_quakes toggle off, num_quakes is greyed out
+   * user hits Refresh Map, which connects to the USGS (show spinner while processing) and changes the map markers and radius accordingly and updates the map legend to show which size corresponds]
+
 Task 2: Filter by date range and X largest magnitude quakes
 
-location will be given automatically
-User configurable fields:
-date range: default 1900 to current, only uses years!
-radius: 10 miles
-show number of X largest quakes number field (10), initally toggled off
+   * location will be given automatically
+   * User configurable fields:
+   * date range: default 1900 to current, only uses years!
+   * radius: 10 miles
+   * show number of X largest quakes number field (10), initally toggled off
 
 Task 2 user activity:
 
@@ -53,6 +55,16 @@ Task 2 user activity:
    * user enters num_quakes: 25
    * user hits Refresh Map, which connects to the USGS (show spinner while processing) and changes the map markers and radius accordingly and updates the   map legend to show which size corresponds
 
-Diagram:
+Sketch:
+
+![Sketch1](https://user-images.githubusercontent.com/106708967/172018006-b9ec188d-e080-4647-af00-a792cd5d9d30.jpg)
+
+
+
+
+
+
+
+
 
 
