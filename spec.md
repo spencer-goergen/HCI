@@ -24,9 +24,9 @@ Task 1: Filter by date and magnitude ranges
 
    * location will be given automatically
    * User configurable fields:
-   ** date range: default 1900 to current, only uses years!
-   ** magnitude range: defaults to 7 to 9.5
-   ** radius: 10 miles
+     * date range: default 1900 to current, only uses years!
+     * magnitude range: defaults to 7 to 9.5
+     * radius: 10 miles
 
 Task 1 user activity:
 
