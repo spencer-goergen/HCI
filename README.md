@@ -2,8 +2,8 @@
 ## Spencer Goergen
 Plane Crash Data Science Project
 
-- sketch.md: my sketch
-- spec.md: my spec
+- sketch.md: Placeholder Image of GUI / Application.
+- spec.md: Project Specifications 
 
 ### Version 1
 - in Progress
