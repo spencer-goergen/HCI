@@ -1,4 +1,5 @@
-# HCI 584X Course 
+# HCI 584X: Plane Crashes from 1918-2022
+## Spencer Goergen
 Plane Crash Data Science Project
 
 - sketch.md: my sketch
