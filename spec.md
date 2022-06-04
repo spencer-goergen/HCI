@@ -1,6 +1,6 @@
 # Example of a light planning spec for my sketch
 
- <font size="5"> **General Description** </font>
+ <font size="5"> General Description </font>
 
 This will show a user plane crashes around the world since 1918. There is a variety of data points, including what phase the flight was in when it crashed, the crash site, and the country operating the plane. For example, the user may compare data from all the flights that crashed in their takeoff phase between Canada, United States, and Mexico.
 App shows a simple line graph between the years 1918 to 2022, with a y-axis of number of crashes.
