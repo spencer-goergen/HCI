@@ -1,4 +1,4 @@
-# Plane Crashes Light Project Spec 
+# Plane Crashes (Light) Project Spec 
 
  ## General Description
 
@@ -61,42 +61,38 @@ Tasks 3-X:
 
 
 Data structures: 
-    - pandas dataframe, each containing data about each quake (date, lat/long location, magnitude) that's been scarped from the USGS
-    - a dict or object that stores all the current values for all application form fields: data range, magnitude range, radius, num_quakes, toggle, etc. 
-    - default values for these could be hard coded or read from a config.txt file
-    - dict/object with any other values the application needs, that are NOT user configurable, e.g. the current location, which is provided at startup from the geolocation function, a scale factor for the markers, geometry/color or the markers, etc.
-
+    - pandas dataframe (I think?), each containing data about each crash (date, location, fatalities, etc) that's been grabbed in .csv file
+    - a dict that stores all the current values for all the necessary fields
 
 Core functions:
-- def get_location():
-    - uses geolocation to approximate current browser geolocation 
-    - not sure yet if/how user concent is needed?
-    - returns geolocation (lat/long) or error string (hardcode Chicago as backup location on fail)
 
-- def get_quake_data(date_range, magnitude_range, number_of_largest_quakes, radius):
-    - scrapes data from the USGS according to arguments
-    - if number_of_largest_quakes is None, magnitude range is used
-    - should still be limited to ~100 quakes to ensure a responsive map (in which case they should be sorted by magnitude!)
+- def get_crash_data(crash_cause, crash_site, crash_country, crash_survivors):
+    - scrapes data from the .csv according to arguments
+    - if any arguement is None, data is disregarded
     - returns a pandas dataframe or error string
 
-- def draw_map(folium_map, dataframe, config_dict):
-    - draws markers from the dataframe into a folium map
-    - config_dict has stuff like scale factor, marker geometry and color, etc.
-    - needs to also update the map legend
+- def draw_graph(unsure (?)):
+    - draws graph from the dataframe into a simple line ploot
+    - needs to also update the graph legend
 
 
 Program flow:
-- Flask app main page creates the GUI, gets geolocation and renders the folium map for this location with current GUI defaults using the dataframe
-- (GUI could be vanilla Javascript or maybe Bootstrap ...)
-- changes in GUI fields are collected in a HTML form and sent back to the server
-- scrapes a new dataframe according to user values, clears folium map and re-draws it from new dataframe
+- (Somehow) the main page creates a GUI that enables the user to select from dropdowns
+- The graph is rendered with defaults
+- As new filters are selected, then the refresh button is clicked, the graph refreshes
+- Changes in the GUI fields must be collected and stored in python files.
 
 
 
 
+## Final Self Assessment
 
+- I realized I don't know API's / Modules very well yet. I need to understand the differences between Pandas, NumPy and Seaborn better.
+- I don't yet know how the webapp will be created, using what API
+- I am still unsure of what functions / how the functions will work
 
-
+Biggest anticipated problem:
+- Storing the data from what the user selected and retrieving it.
 
 
 
