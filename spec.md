@@ -72,7 +72,7 @@ Core functions:
     - returns a pandas dataframe or error string
 
 - def draw_graph(unsure (?)):
-    - draws graph from the dataframe into a simple line ploot
+    - draws graph from the dataframe into a simple line plot
     - needs to also update the graph legend
 
 
