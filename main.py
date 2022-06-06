@@ -1,7 +1,12 @@
-# Grab .csv daata
-url = "/Users/spencergoergen/Documents/HCI_Project/Plane Crash dataset.csv"
-print(url)
-
-#import
+#import Plane Crash file
 import pandas as pd
-import folium
+df = pd.read_csv("file.csv")
+
+display(df.head(10))  #top 10 rows only
+
+df = df.astype({'Country':'str'})
+display(df.dtypes)  #show data types of columns
+
+# line plot
+df.plot.line(x='Year', y='Total fatalities');
+
