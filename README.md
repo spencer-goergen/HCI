@@ -15,5 +15,9 @@ Project structure:
 - templates - TBD
 - static - TBD
 
-
-
+#Sample Photos
+<img width="1545" alt="Screen Shot 2022-06-18 at 8 14 51 PM" src="https://user-images.githubusercontent.com/106708967/174460901-dc03f0f5-47a9-4bbb-a57c-66eeea5f5e87.png">
+<img width="1545" alt="Screen Shot 2022-06-18 at 8 15 02 PM" src="https://user-images.githubusercontent.com/106708967/174460902-4e15938e-4bc6-4da8-b066-6bfb017ad4d2.png">
+<img width="1223" alt="Screen Shot 2022-06-18 at 8 15 14 PM" src="https://user-images.githubusercontent.com/106708967/174460903-923e995b-f953-4412-b273-34b12a622860.png">
+<img width="1546" alt="Screen Shot 2022-06-18 at 8 15 28 PM" src="https://user-images.githubusercontent.com/106708967/174460904-2caa8c19-51e2-4023-8131-23f0d0edca81.png">
+<img width="1548" alt="Screen Shot 2022-06-18 at 8 15 45 PM" src="https://user-images.githubusercontent.com/106708967/174460905-1d7546e8-df64-44f1-bc11-5d3b9818a8aa.png">
