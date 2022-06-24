@@ -6,7 +6,14 @@ Plane Crash Data Science Project
 - spec.md: Project Specifications 
 
 ### Version 1
-- in Progress
+- Seaboorn Graphs Displaying:
+  - Fatalities by Year (Bar + Line Graphs)
+  - Fatalities by Crash Cause (Side by Side Bar Graph)
+  - Fatalities by Year for Specific Countries (Bar + Line Graph)
+- V0.1 GUI (see below)
+
+### Version 2
+- In-Progress
 
 Project structure:
 - main.py - python file to be run/debug
