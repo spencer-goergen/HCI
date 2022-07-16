@@ -4,6 +4,20 @@ Plane Crash Data Science Project
 
 - sketch.md: Placeholder Image of GUI / Application.
 - spec.md: Project Specifications 
+- run.py: Runs Program
+
+### Version 2
+- All code congregated intoo 1 file (GUI_run)
+- run.py when ran, will bring up the GUI
+- Currently working
+  - Selecting 2 Countries from List (both bar and line)
+  - Selecting Bar Graph and All countries to view graph
+  
+- Work in-progress
+  - Selecting more than 2 countries
+  - showing all fatalities line graph
+  - filtering by causes
+  - filter by phase
 
 ### Version 1
 - Seaboorn Graphs Displaying:
@@ -11,9 +25,6 @@ Plane Crash Data Science Project
   - Fatalities by Crash Cause (Side by Side Bar Graph)
   - Fatalities by Year for Specific Countries (Bar + Line Graph)
 - V1.0 GUI (see below)
-
-### Version 2
-- In-Progress
 
 Project structure:
 - main.py - python file to be run/debug
