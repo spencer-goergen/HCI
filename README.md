@@ -7,7 +7,7 @@ Plane Crash Data Science Project
 - run.py: Runs Program
 
 ### Version 2
-- All code congregated intoo 1 file (GUI_run)
+- All code congregated into 1 file (GUI_main)
 - run.py when ran, will bring up the GUI
 - Currently working
   - Selecting 2 Countries from List (both bar and line)
