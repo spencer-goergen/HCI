@@ -1,26 +1,29 @@
-from tkinter.tix import ExFileSelectBox
+from unicodedata import category
 import PySimpleGUI as sg            # For GUI
 import pandas as pd                 # For Graphs
 import matplotlib.pyplot as plt     #   ...
+import numpy as np                  #   ...
 import seaborn as sns               #   ...
 import os                           # For directory movement
-import csv
 
-# Default df
-df = pd.read_csv("Dataset.csv") 
+# System Top menu
+
+menu_def = [['File', ['Open', 'Save', 'Exit']],
+            ['Edit', ['Paste', ['Special', 'Normal'], 'Undo']],
+            ['Help', 'About...']]
 
 # Menus for GUI
 
-button_menu_def_graph = ['Line Graph', 'Bar Graph']
-button_menu_def_country = ['All Countries','Afghanistan', 'Albania', 'Algeria', 'Angola', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo', 'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czechia', 'Denmark', 'Djibouti', 'Ecuador', 'Egypt', 'El Salvador', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Guatemala', 'Guinea', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kuwait', 'Krygyzstan', 'Laos', 'Latvia', 'Lebanon', 'Liberia', 'Libya', 'Madagascar', 'Malaysia', 'Maldives', 'Mali', 'Mexico', 'Moldova', 'Mongolia', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea', 'Norway', 'Oman', 'Pakistan', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saudi Arabia', 'Senegal', 'Serbia', 'Singapore', 'Slovakia', 'South Africa', 'South Korea', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Sweden', 'Switzerland', 'Syria', 'Tajikistan', 'Tanzania', 'Thailand', 'Turkey', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States of America', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe']
-button_menu_def_cause = ['All Causes', 'Technical failure', 'Terrorism', 'Weather', 'Human factor', 'Other']
-button_menu_def_phase = ['All Phases', 'Flight', 'Landing', 'Parking', 'Takeoff','Taxiing']
+button_menu_def_graph = ['', ['Line Graph', 'Bar Graph']]
+button_menu_def_countries = ['', ['All Countries', 'United States of America', 'China', 'Australia', 'Argentina', 'Mexico', 'Canada', 'Spain']]
+button_menu_def_cause = ['', ['All Causes', 'Technical Failure', 'Terrorism', 'Weather', 'Human factor', 'Other causes', 'Unknown']]
+button_menu_def_phase = ['', ['All Phases', 'Flight', 'Landing', 'Parking', 'Takeoff','Taxiing']]
 
 # Default Graphs
-os.chdir('images')
-default_line = 'top_default.png'
-default_bar = 'bottom_default.png'
-os.chdir('../')
+
+default_line = '/Users/spencergoergen/documents/HCI_Project/images/Deaths_By_Year_Line.png'
+default_bar = '/Users/spencergoergen/documents/HCI_Project/images/Deaths_By_Year_Bar.png'
+
 
 # Top Variables
 
@@ -29,6 +32,7 @@ t_country = 'All Countries'
 t_cause = 'All Causes'
 t_phase = 'All Phases'
 
+
 # Bottom Variables
 
 b_graph = 'Bar Graph'
@@ -36,109 +40,40 @@ b_country = 'All Countries'
 b_cause = 'All Causes'
 b_phase = 'All Phases'
 
+country = 'initiate'
+output ='/Users/spencergoergen/documents/HCI_Project/images/output.png'
+
+
 # GUI Layout
 
-column1 = [
-        [sg.Text("Plane Crashes", font = ('Calibri 24 bold'))],
-        [sg.Text("from 1918-2022", font = ('Calibri 24 bold'))],
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Combo((button_menu_def_graph),font = ('Calibri 11'), size = (24,2), expand_y = True, default_value='Line Graph', key='t_graph_menu')],
-        [sg.Combo((button_menu_def_country),font = ('Calibri 11'), size = (24,6), expand_y = True, default_value='All Countries', key='t_country_menu')],
-        [sg.Combo((button_menu_def_cause),font = ('Calibri 11'), size = (24,10), expand_y = True, default_value='All Causes', key='t_cause_menu')],
-        [sg.Combo((button_menu_def_phase),font = ('Calibri 11'), size = (24,10), expand_y = True, default_value='All Phases', key='t_phase_menu')],
-        [sg.Button(('Refresh Top Image'), font = ('Calibri 12'))],
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Combo((button_menu_def_graph),font = ('Calibri 11'), size = (24,2), expand_y = True, default_value='Bar Graph', key='b_graph_menu')],
-        [sg.Combo((button_menu_def_country),font = ('Calibri 11'), size = (24,6), expand_y = True, default_value='All Countries', key='b_country_menu')],
-        [sg.Combo((button_menu_def_cause),font = ('Calibri 11'), size = (24,10), expand_y = True, default_value='All Causes', key='b_cause_menu')],
-        [sg.Combo((button_menu_def_phase),font = ('Calibri 11'), size = (24,10), expand_y = True, default_value='All Phases', key='b_phase_menu')],
-        [sg.Button(('Refresh Bottom Image'), font = ('Calibri 12'))],
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')] #Space between outputs
-    ]
-
-column2 = [
-        [sg.pin(sg.Image(filename=default_line, key='top_graph'))], 
-        [sg.pin(sg.Image(filename=default_bar, key='bottom_graph'))]
-    ]
-
-column3 = [
-        [sg.Button("Exit", font = ('Calibri 16'))],
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')], #Space between outputs
-        [sg.Text(' ')] #Space between outputs
-    ]
-
 layout = [
-    [sg.Column(column1),
-    sg.VSeperator(),
-    sg.Column(column2),
-    sg.Column(column3)]
+        [sg.Menu(menu_def,text_color='black', font="SYSTEM_DEFAULT", pad=(10,10)),],
+        [sg.Text('                                                                                                                   '), sg.ButtonMenu('Graph Type', menu_def=button_menu_def_graph, border_width=5, key='t_graph_menu'),sg.ButtonMenu('Countries', menu_def=button_menu_def_countries, border_width=5, key='t_country_menu'), sg.ButtonMenu('Crash Cause', menu_def=button_menu_def_cause, border_width=5, key='t_cause_menu'), sg.ButtonMenu('Flight Phase', menu_def=button_menu_def_phase, border_width=5, key='t_phase_menu'), sg.Button('Refresh Top Image'),sg.Text('                                                                                      '),sg.Button('Exit')],
+        [sg.Text('                                                                                                                   '), sg.pin(sg.Text(t_graph, key='t_graph')), sg.Text('         '), sg.pin(sg.Text(t_country, key='t_country')), sg.Text('       '), sg.pin(sg.Text(t_cause, key='t_cause')), sg.Text('           '), sg.pin(sg.Text(t_phase, key='t_phase'))],
+        [sg.pin(sg.Image(filename=default_line, key='top_graph'))],
+        [sg.Text('Last Top Settings: '),sg.pin(sg.Text('Default Setup', key='t_output'))],
+        [sg.Text(' ')], #Space between outputs
+        [sg.Text('                                                                                                                   '), sg.ButtonMenu('Graph Type', menu_def=button_menu_def_graph, border_width=5, key='b_graph_menu'),sg.ButtonMenu('Countries', menu_def=button_menu_def_countries, border_width=5, key='b_country_menu'), sg.ButtonMenu('Crash Cause', menu_def=button_menu_def_cause, border_width=5, key='b_cause_menu'), sg.ButtonMenu('Flight Phase', menu_def=button_menu_def_phase, border_width=5, key='b_phase_menu'), sg.Button('Refresh Bottom Image')],
+        [sg.Text('                                                                                                                   '), sg.pin(sg.Text(b_graph, key='b_graph')), sg.Text('          '), sg.pin(sg.Text(b_country, key='b_country')), sg.Text('       '), sg.pin(sg.Text(b_cause, key='b_cause')), sg.Text('           '), sg.pin(sg.Text(b_phase, key='b_phase'))],
+        [sg.pin(sg.Image(filename=default_bar, key='bottom_graph'))],
+        [sg.Text('Last Bottom Settings: '),sg.pin(sg.Text('Default Setup', key='b_output'))],       
     ]
 
 
 # GUI Function
 
 def GUI_run():
-    # Move to Images (Ouput graphs)
-    os.chdir('images')
-
-    # Name Window
-    window =sg.Window('Plane Crashes from 1918-2022',layout)
+    window =sg.Window('Plane Crashes from 1970-2022',layout)
     
     while True:
+
         # Graph styles
         plt.style.use('fivethirtyeight')
 
         # Bring in Global Variables
-        global t_graph
         global t_country
+        global b_country
         global t_cause
-        global t_phase
-
-        global b_country
-        global b_country
-        global b_cause
-        global b_phase
 
         event, values = window.read()
 
@@ -146,1161 +81,799 @@ def GUI_run():
         if event in (sg.WIN_CLOSED, 'Exit'):
                 break
 
-        # Top Graph Update Variables Line
+
+        # Top Graph Update Variables
 
         if values['t_graph_menu'] == "Line Graph":
-            t_graph = values['t_graph_menu']
+            t_graph = 'Line Graph'
+            window['t_graph'].Update(t_graph)
         else:
-            t_graph = values['t_graph_menu']
+            t_graph = 'Bar Graph'
+            window['t_graph'].Update(t_graph)
         
-        # Countries
-
-        if values['t_country_menu'] == "All Countries":
+        if values['t_country_menu'] != "All Countries":
             t_country = values['t_country_menu']
-            type(t_country)
-            print(t_country)
+            window['t_country'].Update(t_country)
         else:
             t_country = values['t_country_menu']
-            type(t_country)
-            print(t_country)
+            window['t_country'].Update(t_country)  
 
         # Causes
 
         if values['t_cause_menu'] != 'All Causes':
             t_cause = values['t_cause_menu']
+            window['t_cause'].Update(t_cause)
         else:
             t_cause = values['t_cause_menu']
+            window['t_cause'].Update(t_cause)
+
 
         # Phases
 
         if values['t_phase_menu'] != 'All Phases':
             t_phase = values['t_phase_menu']
+            window['t_phase'].Update(t_phase)
         else:
             t_phase = values['t_phase_menu']
+            window['t_phase'].Update(t_phase)
 
         # Bottom Graph Update Variables
 
         if values['b_graph_menu'] == "Line Graph":
-            b_graph = values['b_graph_menu']
+            print("Now Line Graph")
+            b_graph = 'Line Graph'
+            window['b_graph'].Update(b_graph)
         else:
-            b_graph = values['b_graph_menu']
+            b_graph = 'Line Graph'
+            window['b_graph'].Update(b_graph)
+
+        if values['b_graph_menu'] == "Bar Graph":
+            print("Bar Graph")
+            b_graph = 'Bar graph'
+            window['b_graph'].Update(b_graph)
+        else:
+            b_graph = 'Bar graph'
+            window['b_graph'].Update(b_graph)
 
         # Countries
 
         if values['b_country_menu'] != "All Countries":
             b_country = values['b_country_menu']
+            window['b_country'].Update(b_country)
         else:
             b_country = values['b_country_menu']
+            window['b_country'].Update(b_country)
 
         # Causes
 
         if values['b_cause_menu'] != 'All Causes':
             b_cause = values['b_cause_menu']
+            window['b_cause'].Update(b_cause)
         else:
             b_cause = values['b_cause_menu']
+            window['b_cause'].Update(b_cause)
+
 
         # Phases
 
         if values['b_phase_menu'] != 'All Phases':
             b_phase = values['b_phase_menu']
+            window['b_phase'].Update(b_phase)
         else:
             b_phase = values['b_phase_menu']
-
+            window['b_phase'].Update(b_phase)
 
 
         # Refresh Top Graph
 
         if event=='Refresh Top Image':
-            t_country=t_country.replace("[", "")
-            t_country=t_country.replace("]", "")
-            t_country=t_country.replace("'", "")
-            print(t_country)
-            if t_graph == "Line Graph" or t_graph == None:
-                if t_country == 'All Countries' or t_country == None:
-                        line_plot_all()  
-                        window['top_graph'].Update(filename='output.png')
-                else:                                
-                        top_line()
-                        window['top_graph'].Update(filename='output.png')
+
+            # Bar Graph 
+
+            if values['t_graph_menu'] == "Bar Graph":
+
+                # Countries
+                t_graph = 'Bar Graph'
+                window['t_graph'].Update(t_graph)
+
+                if values['t_country_menu'] == 'All Countries':
+
+                    # Phases
+
+                    t_country = 'All Countries'
+                    window['t_country'].Update(t_country)
+
+                    if values['t_phase_menu'] == 'All Phases':
+
+                        # Causes
+
+                        t_phase = 'All Phases'
+                        window['t_phase'].Update(t_phase)
+                        
+                        if values['t_cause_menu'] == 'All Causes':
+
+                            # Final All (s)
+
+                            t_cause = values['t_cause_menu']
+                            window['t_cause'].Update(t_cause)
+
+                            barPlot_all()
+                            window['top_graph'].Update(filename=output)
+
+                        else:                               # All Causes (last one)
+                            t_cause = values['t_cause_menu']
+                            window['t_cause'].Update(t_cause)
+
+                            barPlot_cause()
+                            window['top_graph'].Update(filename=output)
+                    
+                    else:                                   # All Phases
+                        t_phase = values['t_phase_menu']
+                        window['t_phase'].Update(t_phase)
+
+                        barPlot_all()
+                        window['top_graph'].Update(filename=output)
+                else:                                       # All Countries
+                    t_country = values['t_country_menu']
+                    window['t_country'].Update(t_country)
+
+                    barPlot_t()
+                    window['top_graph'].Update(filename=output)
             
-            else:
-                if t_country == 'All Countries' or t_country == None:
-                        bar_plot_all()  
-                        window['top_graph'].Update(filename='output.png')
-                else:                                
-                        top_bar()
-                        window['top_graph'].Update(filename='output.png')
+            # Line Graph
+
+            if values['t_graph_menu'] == "Line Graph":
+                if values['t_country_menu'] == 'All Countries':
+                    t_graph = 'Line Graph'
+                    window['t_graph'].Update(t_graph)
+
+                    linePlot_all()
+                    print('success')
+                    window['top_graph'].Update(filename='/Users/spencergoergen/documents/HCI_Project/images/output.png')
+                elif values['t_country_menu'] != 'All Countries':
+                    t_graph = 'Line Graph'
+                    window['t_graph'].Update(t_graph)
+
+                    linePlot_t()
+                    print('success')
+                    window['top_graph'].Update(filename='/Users/spencergoergen/documents/HCI_Project/images/output.png')
+
+
 
 
         # Refresh Bottom Graph
+
         if event=='Refresh Bottom Image':
-            if b_graph == "Bar Graph" or b_graph == None:
-                if b_country == 'All Countries' or b_country == None:
-                        bar_plot_all_bottom()  
-                        window['bottom_graph'].Update(filename='output.png')
-                else:                                
-                        bottom_bar()
-                        window['bottom_graph'].Update(filename='output.png')
+            if values['b_graph_menu'] == "Bar Graph":
+                if values['b_country_menu'] == 'All Countries':
+                    b_graph = 'Bar Graph'
+                    window['b_graph'].Update(b_graph)
+
+                    barPlot_all()
+                    print('success')
+                    window['bottom_graph'].Update(filename='/Users/spencergoergen/documents/HCI_Project/images/output.png')
+                elif values['b_country_menu'] != 'All Countries':
+                    b_graph = 'Bar Graph'
+                    window['b_graph'].Update(b_graph)
+
+                    barPlot_b()
+                    print('success')
+                    window['bottom_graph'].Update(filename='/Users/spencergoergen/documents/HCI_Project/images/output.png')
             
-            else: # Line Graph
-                if t_country == 'All Countries' or t_country == None:
-                        line_plot_all_bottom()  
-                        window['bottom_graph'].Update(filename='output.png')
-                else:                                
-                        bottom_line()
-                        window['bottom_graph'].Update(filename='output.png')
+            if values['b_graph_menu'] == "Line Graph":
+                if values['b_country_menu'] == 'All Countries':
+                    b_graph = 'Line Graph'
+                    window['b_graph'].Update(b_graph)
+
+                    linePlot_all()
+                    print('success')
+                    window['bottom_graph'].Update(filename='/Users/spencergoergen/documents/HCI_Project/images/output.png')
+                elif values['b_country_menu'] != 'All Countries':
+                    b_graph = 'Line Graph'
+                    window['b_graph'].Update(b_graph)
+
+                    linePlot_b()
+                    print('success')
+                    window['bottom_graph'].Update(filename='/Users/spencergoergen/documents/HCI_Project/images/output.png')
+
+
+    # End of GUI_run()
 
     window.close()
 
 
-# All Graphs with Defaults
-
-def line_plot_all():
-    from GUI_main import GUI_run
-    if (t_cause == 'All Causes' or t_cause == None):
-        if(t_phase == 'All Phases' or t_phase == None):
-            category = 'Year'
-            numeric = 'Fatalities'
-
-            df_all = df.groupby(category)[numeric].sum()
-
-            df_all = {category: df_all.index,numeric: df_all.values}
-            df_all = pd.DataFrame(df_all)
-
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.lineplot(x=x, y=y, # which columns for x and y
-                                data=df_all, # in which dataframe
-                                ci=0, # no error bars (much faster!)
-                                ) 
-
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            ax.set(ylim=(0, 5000))
-
-            plt.xticks(fontsize=10)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Worldwide Fatalities by Year", fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png") 
-        else:
-            df_phase_all = df.loc[df['Phase'] == t_phase]
-
-            #Total Fatalities
-            category = 'Year'
-            numeric = 'Fatalities'
-
-            df_phase_all = df_phase_all.groupby(category)[numeric].sum()
-
-            df_phase_all = {category: df_phase_all.index,numeric: df_phase_all.values}
-            df_phase_all = pd.DataFrame(df_phase_all)
-
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.lineplot(x=x, y=y,
-                            data=df_phase_all,
-                            ci=0,
-                            ) 
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=10)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Worldwide fatalities by Year during " + t_phase, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-    else:
-        if(t_phase == 'All Phases' or t_phase == None):
-            df_cause_all = df.loc[df['Cause'] == t_cause]
-
-            #Total Fatalities
-            category = 'Year'
-            numeric = 'Fatalities'
-
-            df_cause_all = df_cause_all.groupby(category)[numeric].sum()
-
-            df_cause_all = {category: df_cause_all.index,numeric: df_cause_all.values}
-            df_cause_all = pd.DataFrame(df_cause_all)
-
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.lineplot(x=x, y=y,
-                            data=df_cause_all,
-                            ci=0,
-                            ) 
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=10)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Worldwide fatalities by Year caused by " + t_cause, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-        else:
-            df_cause_all = df.loc[df['Cause'] == t_cause]
-            df_cause_phase_all = df_cause_all.loc[df_cause_all['Phase'] == t_phase]
-
-            #Total Fatalities
-            category = 'Year'
-            numeric = 'Fatalities'
-
-            df_cause_phase_all = df_cause_phase_all.groupby(category)[numeric].sum()
-
-            df_cause_phase_all = {category: df_cause_phase_all.index,numeric: df_cause_phase_all.values}
-            df_cause_phase_all = pd.DataFrame(df_cause_phase_all)
-
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.lineplot(x=x, y=y,
-                            data=df_cause_phase_all,
-                            ci=0,
-                            ) 
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=10)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Worldwide fatalities by Year caused by " + t_cause + ' during ' + t_phase, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-
-def bar_plot_all():
-    from GUI_main import GUI_run
-    if (t_cause == 'All Causes' or t_cause == None):
-        if(t_phase == 'All Phases' or t_phase == None):
-            category = 'Year'
-            numeric = 'Fatalities'
-
-            df_all = df.groupby(category)[numeric].sum()
-
-            df_all = {category: df_all.index,numeric: df_all.values}
-            df_all = pd.DataFrame(df_all)
-
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.barplot(x=x, y=y, # which columns for x and y
-                                data=df_all, # in which dataframe
-                                ci=0, # no error bars (much faster!)
-                                ) 
-
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            ax.set(ylim=(0, 5000))
-
-            plt.xticks(fontsize=8)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Worldwide Fatalities by Year", fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png") 
-        else:
-            df_phase_all = df.loc[df['Phase'] == t_phase]
-
-            #Total Fatalities
-            category = 'Year'
-            numeric = 'Fatalities'
-
-            df_phase_all = df_phase_all.groupby(category)[numeric].sum()
-
-            df_phase_all = {category: df_phase_all.index,numeric: df_phase_all.values}
-            df_phase_all = pd.DataFrame(df_phase_all)
-
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.barplot(x=x, y=y,
-                            data=df_phase_all,
-                            ci=0,
-                            ) 
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=8)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Worldwide fatalities by Year during " + t_phase, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-    else:
-        if(t_phase == 'All Phases' or t_phase == None):
-            df_cause_all = df.loc[df['Cause'] == t_cause]
-
-            #Total Fatalities
-            category = 'Year'
-            numeric = 'Fatalities'
-
-            df_cause_all = df_cause_all.groupby(category)[numeric].sum()
-
-            df_cause_all = {category: df_cause_all.index,numeric: df_cause_all.values}
-            df_cause_all = pd.DataFrame(df_cause_all)
-
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.barplot(x=x, y=y,
-                            data=df_cause_all,
-                            ci=0,
-                            ) 
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=8)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Worldwide fatalities by Year caused by " + t_cause, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-        else:
-            df_cause_all = df.loc[df['Cause'] == t_cause]
-            df_cause_phase_all = df_cause_all.loc[df_cause_all['Phase'] == t_phase]
-
-            #Total Fatalities
-            category = 'Year'
-            numeric = 'Fatalities'
-
-            df_cause_phase_all = df_cause_phase_all.groupby(category)[numeric].sum()
-
-            df_cause_phase_all = {category: df_cause_phase_all.index,numeric: df_cause_phase_all.values}
-            df_cause_phase_all = pd.DataFrame(df_cause_phase_all)
-
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.barplot(x=x, y=y,
-                            data=df_cause_phase_all,
-                            ci=0,
-                            ) 
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=8)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Worldwide fatalities by Year caused by " + t_cause + ' during ' + t_phase, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-
 
 # Top Graphs
 
-
-def top_line():
+def linePlot_t():
+    df_line = pd.read_csv("/Users/spencergoergen/documents/HCI_Project/Plane Crash dataset.csv")    
     from GUI_main import GUI_run
-    df_country = df.loc[df['Country'] == t_country]
+
+    df0 = df_line[df_line.Country == t_country]
+
+    #Total Fatalities
+    print("all fatalities", df0["Total fatalities"].sum())
+
+    print(t_cause)
+
     category = 'Year'
-    numeric = 'Fatalities'
-    if (t_cause == 'All Causes' or t_cause == None):
-        if(t_phase == 'All Phases' or t_phase == None):
-            t_line_country = df_country.groupby('Year')['Fatalities'].sum()
-            category = 'Year'
-            numeric = 'Fatalities'
-            t_line_country = {category: t_line_country.index, numeric: t_line_country.values}
-            t_line_country = pd.DataFrame(t_line_country)
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
 
-            ax = sns.lineplot(x=x, y=y,
-                            data=t_line_country,
-                            ci=0,
-                            ) 
+    numeric = 'Total fatalities'
 
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
+    print(t_cause)
 
-            plt.xticks(fontsize=10)
-            plt.yticks(fontsize=7)
+    # group fatalities by cause:  https://datagy.io/pandas-groupby/
+    gb0 = df0.groupby(category)[numeric].sum()
 
-            ax.set_title("Fatalities by Year for " + t_country, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-
-            fig.savefig("output.png")
-        else:
-            df_phase = df_country.loc[df_country['Phase'] == t_phase]
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.lineplot(x=x, y=y,
-                            data=df_phase,
-                            ci=0,
-                            ) 
-                    
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=10)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Fatalities by Year for " + t_country + " during "  + t_phase, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-    else:
-        if(t_phase == 'All Phases' or t_phase == None):
-            df_cause = df_country.loc[df_country['Cause'] == t_cause]
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.lineplot(x=x, y=y,
-                            data=df_cause,
-                            ci=0,
-                            ) 
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=10)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Fatalities by Year for " + t_country + " caused by "  + t_cause, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-        else:
-            df_cause = df_country.loc[df_country['Cause'] == t_cause]
-            df_phase_cause = df_cause.loc[df_cause['Phase'] == t_phase]
-
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.lineplot(x=x, y=y,
-                            data=df_phase_cause,
-                            ci=0,
-                            ) 
+    print(gb0)
 
 
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
+    print("groupby as Series:") 
+    print(gb0, type(gb0))
 
-            plt.xticks(fontsize=10)
-            plt.yticks(fontsize=7)
 
-            ax.set_title("Fatalities by Year for " + t_country + " caused by "  + t_cause + " during "+ t_phase, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
 
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")  
 
-def top_bar():
+      # The issue (for me anyway) is that gb is not a dataframe, the left most "column"
+      # is its index (which can be non-numeric) and the right (unnamed) column has
+      # the actual values. Thing is you can't plot with that (x=index y=unnamed) so
+      # I'll create a new, separate df for plotting:
+
+    d0 = {category: gb0.index,
+        numeric: gb0.values}
+    dfgb0 = pd.DataFrame(d0)
+    dfgb0
+
+
+
+
+    #Graph Total Deaths By Year
+    name = "Deaths_By_Year_Line"
+    fig, ax = plt.subplots(figsize=(12.75,3.5))  # new plot
+    x = 'Year'
+    y = 'Total fatalities'
+
+    ax = sns.lineplot(x=x, y=y, # which columns for x and y
+                    data=dfgb0, # in which dataframe
+                    ci=0, # no error bars (much faster!)
+                    ) 
+
+
+    plt.xticks(rotation=90)
+    ax.tick_params(axis='x', which='both', labelsize=8)
+
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+
+    ax.set_title("Total Deaths by Year for " + t_country, fontsize='22')
+    ax.set_ylabel(ax.get_ylabel(), fontsize='18')
+    ax.set_xlabel(ax.get_xlabel(), fontsize='18')
+    sns.set(rc={'figure.figsize':(.2,.1)})
+
+    fig = ax.get_figure()
+    os. chdir("/Users/spencergoergen/documents/HCI_Project/images/")
+    print(os.getcwd())
+
+    fig.savefig("output.png") 
+
+
+def barPlot_t():
     from GUI_main import GUI_run
-    df_country = df.loc[df['Country'] == t_country]
+
+    df_bar = pd.read_csv("/Users/spencergoergen/documents/HCI_Project/Plane Crash dataset.csv")
+
+    df1 = df_bar[df_bar.Country == t_country]
+
+    #Total Fatalities
+    print("all fatalities", df_bar["Total fatalities"].sum())
+
     category = 'Year'
-    numeric = 'Fatalities'
-    if (t_cause == 'All Causes' or t_cause == None):
-        if(t_phase == 'All Phases' or t_phase == None):
-            t_line_country = df_country.groupby('Year')['Fatalities'].sum()
-            category = 'Year'
-            numeric = 'Fatalities'
-            t_line_country = {category: t_line_country.index, numeric: t_line_country.values}
-            t_line_country = pd.DataFrame(t_line_country)
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
+    numeric = 'Total fatalities'
 
-            ax = sns.barplot(x=x, y=y,
-                            data=t_line_country,
-                            ci=0,
-                            ) 
+    # group fatalities by cause:  https://datagy.io/pandas-groupby/
+    gb1 = df1.groupby(category)[numeric].sum()
 
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=8)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Fatalities by Year for " + t_country, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-
-            fig.savefig("output.png")
-        else:
-            df_phase = df_country.loc[df_country['Phase'] == t_phase]
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.barplot(x=x, y=y,
-                            data=df_phase,
-                            ci=0,
-                            ) 
-                    
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=8)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Fatalities by Year for " + t_country + " during "  + t_phase, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-    else:
-        if(t_phase == 'All Phases' or t_phase == None):
-            df_cause = df_country.loc[df_country['Cause'] == t_cause]
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.barplot(x=x, y=y,
-                            data=df_cause,
-                            ci=0,
-                            ) 
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=8)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Fatalities by Year for " + t_country + " caused by "  + t_cause, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-        else:
-            df_cause = df_country.loc[df_country['Cause'] == t_cause]
-            df_phase_cause = df_cause.loc[df_cause['Phase'] == t_phase]
-
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.barplot(x=x, y=y,
-                            data=df_phase_cause,
-                            ci=0,
-                            ) 
+    print(gb1)
 
 
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
+    print("groupby as Series:") 
+    print(gb1, type(gb1))
 
-            plt.xticks(fontsize=8)
-            plt.yticks(fontsize=7)
 
-            ax.set_title("Fatalities by Year for " + t_country + " caused by "  + t_cause + " during "+ t_phase, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
+    # The issue (for me anyway) is that gb is not a dataframe, the left most "column"
+    # is its index (which can be non-numeric) and the right (unnamed) column has
+    # the actual values. Thing is you can't plot with that (x=index y=unnamed) so
+    # I'll create a new, separate df for plotting:
 
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")  
+    d1 = {category: gb1.index,
+        numeric: gb1.values}
+    dfgb1 = pd.DataFrame(d1)
+    dfgb1
 
+    # Plot Graph
+    fig, ax = plt.subplots(figsize=(12.75,3.5))  # new plot
+
+    ax = sns.barplot(x="Year", y="Total fatalities", # which columns for x and y
+                        data=dfgb1, # in which dataframe
+                        ci=0, # no error bars (much faster!)
+                        ) 
+
+
+    plt.xticks(rotation=90)
+
+    ax.set_title("Fatalities by Year for " + t_country, fontsize='22')
+
+    ax.set_ylim(0,1000)
+    ax.set_ylabel(ax.get_ylabel(), fontsize='18')
+    ax.set_xlabel(ax.get_xlabel(), fontsize='18')
+    plt.yticks(fontsize=12)
+    plt.xticks(fontsize=12)
+
+    fig = ax.get_figure()
+    os. chdir("/Users/spencergoergen/documents/HCI_Project/images/")
+    print(os.getcwd())
+
+    fig.savefig("output.png") 
+
+
+# All Graphs
+
+def barPlot_all():
+    from GUI_main import GUI_run
+
+    df = pd.read_csv("/Users/spencergoergen/documents/HCI_Project/Plane Crash dataset.csv")
+
+    #Total Fatalities
+    print("all fatalities", df["Total fatalities"].sum())
+
+    category0 = 'Crash cause'
+    numeric0 = 'Total fatalities'
+
+    # group fatalities by cause:  https://datagy.io/pandas-groupby/
+    gb = df.groupby(category0)[numeric0].sum()
+    print("groupby as Series:") 
+    print(gb, type(gb))
+
+    # The issue (for me anyway) is that gb is not a dataframe, the left most "column"
+    # is its index (which can be non-numeric) and the right (unnamed) column has
+    # the actual values. Thing is you can't plot with that (x=index y=unnamed) so
+    # I'll create a new, separate df for plotting:
+
+    d = {category0: gb.index,
+        numeric0: gb.values}
+    dfgb0 = pd.DataFrame(d)
+    dfgb0
+    print(dfgb0)
+
+    dfgb0.insert(2, "Fatalities", dfgb0['Total fatalities'], True)
+    numeric01 = 'Fatalities'
+
+    print(dfgb0)
+
+    #Crew Fatalities
+    print("all fatalities", df["Crew fatalities"].sum())
+
+    category1 = 'Crash cause'
+    numeric1 = 'Crew fatalities'
+
+    # group fatalities by cause:  https://datagy.io/pandas-groupby/
+    gb = df.groupby(category1)[numeric1].sum()
+    print("groupby as Series:") 
+    print(gb, type(gb))
+
+    # The issue (for me anyway) is that gb is not a dataframe, the left most "column"
+    # is its index (which can be non-numeric) and the right (unnamed) column has
+    # the actual values. Thing is you can't plot with that (x=index y=unnamed) so
+    # I'll create a new, separate df for plotting:
+
+    d = {category1: gb.index,
+        numeric1: gb.values}
+    dfgb1 = pd.DataFrame(d)
+    dfgb1
+
+    dfgb1.insert(2, "Fatalities", dfgb1['Crew fatalities'], True)
+    numeric01 = 'Fatalities'
+
+    print(dfgb1)
+
+    #Passenger Fatalities
+    print("all fatalities", df["PAX fatalities"].sum())
+
+    category2 = 'Crash cause'
+    numeric2 = 'PAX fatalities'
+
+    # group fatalities by cause:  https://datagy.io/pandas-groupby/
+    gb = df.groupby(category2)[numeric2].sum()
+    print("groupby as Series:") 
+    print(gb, type(gb))
+
+    # The issue (for me anyway) is that gb is not a dataframe, the left most "column"
+    # is its index (which can be non-numeric) and the right (unnamed) column has
+    # the actual values. Thing is you can't plot with that (x=index y=unnamed) so
+    # I'll create a new, separate df for plotting:
+
+    d = {category2: gb.index,
+        numeric2: gb.values}
+    dfgb2 = pd.DataFrame(d)
+    dfgb2
+
+    dfgb2.insert(2, "Fatalities", dfgb2['PAX fatalities'], True)
+    numeric2 = 'Fatalities'
+
+    print(dfgb2)
+
+    #Other Fatalities
+    print("all fatalities", df["Other fatalities"].sum())
+
+    category3 = 'Crash cause'
+    numeric3 = 'Other fatalities'
+
+    # group fatalities by cause:  https://datagy.io/pandas-groupby/
+    gb = df.groupby(category3)[numeric3].sum()
+    print("groupby as Series:") 
+    print(gb, type(gb))
+
+    # The issue (for me anyway) is that gb is not a dataframe, the left most "column"
+    # is its index (which can be non-numeric) and the right (unnamed) column has
+    # the actual values. Thing is you can't plot with that (x=index y=unnamed) so
+    # I'll create a new, separate df for plotting:
+
+    d = {category3: gb.index,
+        numeric3: gb.values}
+    dfgb3 = pd.DataFrame(d)
+    dfgb3
+
+    dfgb3.insert(2, "Fatalities", dfgb3['Other fatalities'], True)
+    numeric01 = 'Fatalities'
+
+    print(dfgb0)
+    # 1 graph working
+    name = 'Crash_Cause_By_Fatalities_Bar'
+
+    aa=dict(zip(dfgb0['Crash cause'],dfgb0['Fatalities']))
+    bb=dict(zip(dfgb1['Crash cause'],dfgb1['Fatalities']))
+    cc=dict(zip(dfgb2['Crash cause'],dfgb2['Fatalities']))
+    dd=dict(zip(dfgb3['Crash cause'],dfgb3['Fatalities']))
+
+    dfbar = pd.DataFrame({'Total Fatalities': aa, 'Crew Fatalities': bb, 'Passenger Fatalities': cc,'Other Fatalities': dd})
+
+    # Non-stacked bar plot
+    graph = dfbar.plot.bar(figsize=(12.75,3.5))
+
+    plt.title("Fatalities by Crash Cause")
+    plt.legend(title="Fatalitiy Type")
+    plt.xticks(rotation=0)
+
+    # Save Graph
+    os. chdir("/Users/spencergoergen/documents/HCI_Project/images/")
+    print(os.getcwd())
+
+
+    fig = graph.get_figure()
+    fig.savefig('output.png') 
+
+
+def linePlot_all():
+    df = pd.read_csv("/Users/spencergoergen/documents/HCI_Project/Plane Crash dataset.csv")    
+    from GUI_main import GUI_run
+    #Total Fatalities
+    print("all fatalities", df["Total fatalities"].sum())
+
+    category = 'Year'
+    numeric = 'Total fatalities'
+
+    # group fatalities by cause:  https://datagy.io/pandas-groupby/
+    gb = df.groupby(category)[numeric].sum()
+    print("groupby as Series:") 
+    print(gb, type(gb))
+
+    # The issue (for me anyway) is that gb is not a dataframe, the left most "column"
+    # is its index (which can be non-numeric) and the right (unnamed) column has
+    # the actual values. Thing is you can't plot with that (x=index y=unnamed) so
+    # I'll create a new, separate df for plotting:
+
+    d = {category: gb.index,
+        numeric: gb.values}
+    dfgb = pd.DataFrame(d)
+    dfgb
+    #Graph Total Deaths By Year
+    name = "Deaths_By_Year_Line"
+    fig, ax = plt.subplots(figsize=(12.75,3.5))  # new plot
+    x = 'Year'
+    y = 'Total fatalities'
+
+    ax = sns.lineplot(x=x, y=y, # which columns for x and y
+                        data=dfgb, # in which dataframe
+                        ci=0, # no error bars (much faster!)
+                        ) 
+
+
+    plt.xticks(rotation=90)
+    ax.tick_params(axis='x', which='both', labelsize=8)
+
+    ax.set(ylim=(0, 5000))
+
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+
+    ax.set_title("Total Deaths by Year", fontsize='22')
+    ax.set_ylabel(ax.get_ylabel(), fontsize='18')
+    ax.set_xlabel(ax.get_xlabel(), fontsize='18')
+    sns.set(rc={'figure.figsize':(.2,.1)})
+
+    fig = ax.get_figure()
+    os. chdir("/Users/spencergoergen/documents/HCI_Project/images/")
+    print(os.getcwd())
+
+    fig.savefig("output.png") 
+
+# Causes (working currently)
+
+def barPlot_cause():
+    from GUI_main import GUI_run
+
+    df = pd.read_csv("/Users/spencergoergen/documents/HCI_Project/Plane Crash dataset.csv")
+
+    #Total Fatalities
+    print("all fatalities", df["Total fatalities"].sum())
+
+    category0 = 'Crash cause'
+    numeric0 = 'Total fatalities'
+
+    # group fatalities by cause:  https://datagy.io/pandas-groupby/
+    gb = df.groupby(category0)[numeric0].sum()
+    print("groupby as Series:") 
+    print(gb, type(gb))
+
+    # The issue (for me anyway) is that gb is not a dataframe, the left most "column"
+    # is its index (which can be non-numeric) and the right (unnamed) column has
+    # the actual values. Thing is you can't plot with that (x=index y=unnamed) so
+    # I'll create a new, separate df for plotting:
+
+    d = {category0: gb.index,
+        numeric0: gb.values}
+    dfgb0 = pd.DataFrame(d)
+    dfgb0
+    print(dfgb0)
+
+    dfgb0.insert(2, "Fatalities", dfgb0['Total fatalities'], True)
+    numeric01 = 'Fatalities'
+
+    print(dfgb0)
+
+    #Crew Fatalities
+    print("all fatalities", df["Crew fatalities"].sum())
+
+    category1 = 'Crash cause'
+    numeric1 = 'Crew fatalities'
+
+    # group fatalities by cause:  https://datagy.io/pandas-groupby/
+    gb = df.groupby(category1)[numeric1].sum()
+    print("groupby as Series:") 
+    print(gb, type(gb))
+
+    # The issue (for me anyway) is that gb is not a dataframe, the left most "column"
+    # is its index (which can be non-numeric) and the right (unnamed) column has
+    # the actual values. Thing is you can't plot with that (x=index y=unnamed) so
+    # I'll create a new, separate df for plotting:
+
+    d = {category1: gb.index,
+        numeric1: gb.values}
+    dfgb1 = pd.DataFrame(d)
+    dfgb1
+
+    dfgb1.insert(2, "Fatalities", dfgb1['Crew fatalities'], True)
+    numeric01 = 'Fatalities'
+
+    print(dfgb1)
+
+    #Passenger Fatalities
+    print("all fatalities", df["PAX fatalities"].sum())
+
+    category2 = 'Crash cause'
+    numeric2 = 'PAX fatalities'
+
+    # group fatalities by cause:  https://datagy.io/pandas-groupby/
+    gb = df.groupby(category2)[numeric2].sum()
+    print("groupby as Series:") 
+    print(gb, type(gb))
+
+    # The issue (for me anyway) is that gb is not a dataframe, the left most "column"
+    # is its index (which can be non-numeric) and the right (unnamed) column has
+    # the actual values. Thing is you can't plot with that (x=index y=unnamed) so
+    # I'll create a new, separate df for plotting:
+
+    d = {category2: gb.index,
+        numeric2: gb.values}
+    dfgb2 = pd.DataFrame(d)
+    dfgb2
+
+    dfgb2.insert(2, "Fatalities", dfgb2['PAX fatalities'], True)
+    numeric2 = 'Fatalities'
+
+    print(dfgb2)
+
+    #Other Fatalities
+    print("all fatalities", df["Other fatalities"].sum())
+
+    category3 = 'Crash cause'
+    numeric3 = 'Other fatalities'
+
+    # group fatalities by cause:  https://datagy.io/pandas-groupby/
+    gb = df.groupby(category3)[numeric3].sum()
+    print("groupby as Series:") 
+    print(gb, type(gb))
+
+    # The issue (for me anyway) is that gb is not a dataframe, the left most "column"
+    # is its index (which can be non-numeric) and the right (unnamed) column has
+    # the actual values. Thing is you can't plot with that (x=index y=unnamed) so
+    # I'll create a new, separate df for plotting:
+
+    d = {category3: gb.index,
+        numeric3: gb.values}
+    dfgb3 = pd.DataFrame(d)
+    dfgb3
+
+    dfgb3.insert(2, "Fatalities", dfgb3['Other fatalities'], True)
+    numeric01 = 'Fatalities'
+
+    print(dfgb0)
+    # 1 graph working
+    name = 'Crash_Cause_By_Fatalities_Bar'
+
+    aa=dict(zip(dfgb0['Crash cause'],dfgb0['Fatalities']))
+    bb=dict(zip(dfgb1['Crash cause'],dfgb1['Fatalities']))
+    cc=dict(zip(dfgb2['Crash cause'],dfgb2['Fatalities']))
+    dd=dict(zip(dfgb3['Crash cause'],dfgb3['Fatalities']))
+
+    dfbar = pd.DataFrame({'Total Fatalities': aa, 'Crew Fatalities': bb, 'Passenger Fatalities': cc,'Other Fatalities': dd})
+
+    # Non-stacked bar plot
+    graph = dfbar.plot.bar(figsize=(12.75,3.5))
+
+    plt.title("Fatalities by Crash Cause")
+    plt.legend(title="Fatalitiy Type")
+    plt.xticks(rotation=0)
+
+    # Save Graph
+    os. chdir("/Users/spencergoergen/documents/HCI_Project/images/")
+    print(os.getcwd())
+
+
+    fig = graph.get_figure()
+    fig.savefig('output.png') 
 
 
 # Bottom Graphs
 
-
-def line_plot_all_bottom():
+def linePlot_b():
+    df_line = pd.read_csv("/Users/spencergoergen/documents/HCI_Project/Plane Crash dataset.csv")    
     from GUI_main import GUI_run
-    if (b_cause == 'All Causes' or b_cause == None):
-        if(b_phase == 'All Phases' or b_phase == None):
-            category = 'Year'
-            numeric = 'Fatalities'
 
-            df_all = df.groupby(category)[numeric].sum()
+    df0 = df_line[df_line.Country == b_country]
 
-            df_all = {category: df_all.index,numeric: df_all.values}
-            df_all = pd.DataFrame(df_all)
+    print("DKSJFNDSJIFSDFHKSDFJSFSNDF ---" + b_country)
 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
+    #Total Fatalities
+    print("all fatalities", df0["Total fatalities"].sum())
 
-            ax = sns.lineplot(x=x, y=y, # which columns for x and y
-                                data=df_all, # in which dataframe
-                                ci=0, # no error bars (much faster!)
-                                ) 
-
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            ax.set(ylim=(0, 5000))
-
-            plt.xticks(fontsize=10)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Worldwide Fatalities by Year", fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png") 
-        else:
-            df_phase_all = df.loc[df['Phase'] == b_phase]
-
-            #Total Fatalities
-            category = 'Year'
-            numeric = 'Fatalities'
-
-            df_phase_all = df_phase_all.groupby(category)[numeric].sum()
-
-            df_phase_all = {category: df_phase_all.index,numeric: df_phase_all.values}
-            df_phase_all = pd.DataFrame(df_phase_all)
-
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.lineplot(x=x, y=y,
-                            data=df_phase_all,
-                            ci=0,
-                            ) 
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=10)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Worldwide fatalities by Year during " + b_phase, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-    else:
-        if(b_phase == 'All Phases' or b_phase == None):
-            df_cause_all = df.loc[df['Cause'] == b_cause]
-
-            #Total Fatalities
-            category = 'Year'
-            numeric = 'Fatalities'
-
-            df_cause_all = df_cause_all.groupby(category)[numeric].sum()
-
-            df_cause_all = {category: df_cause_all.index,numeric: df_cause_all.values}
-            df_cause_all = pd.DataFrame(df_cause_all)
-
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.lineplot(x=x, y=y,
-                            data=df_cause_all,
-                            ci=0,
-                            ) 
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=10)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Worldwide fatalities by Year caused by " + b_cause, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-        else:
-            df_cause_all = df.loc[df['Cause'] == b_cause]
-            df_cause_phase_all = df_cause_all.loc[df_cause_all['Phase'] == b_phase]
-
-            #Total Fatalities
-            category = 'Year'
-            numeric = 'Fatalities'
-
-            df_cause_phase_all = df_cause_phase_all.groupby(category)[numeric].sum()
-
-            df_cause_phase_all = {category: df_cause_phase_all.index,numeric: df_cause_phase_all.values}
-            df_cause_phase_all = pd.DataFrame(df_cause_phase_all)
-
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.lineplot(x=x, y=y,
-                            data=df_cause_phase_all,
-                            ci=0,
-                            ) 
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=10)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Worldwide fatalities by Year caused by " + b_cause + ' during ' + b_phase, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-
-def bar_plot_all_bottom():
-    from GUI_main import GUI_run
-    if (b_cause == 'All Causes' or b_cause == None):
-        if(b_phase == 'All Phases' or b_phase == None):
-            category = 'Year'
-            numeric = 'Fatalities'
-
-            df_all = df.groupby(category)[numeric].sum()
-
-            df_all = {category: df_all.index,numeric: df_all.values}
-            df_all = pd.DataFrame(df_all)
-
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.barplot(x=x, y=y, # which columns for x and y
-                                data=df_all, # in which dataframe
-                                ci=0, # no error bars (much faster!)
-                                ) 
-
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            ax.set(ylim=(0, 5000))
-
-            plt.xticks(fontsize=8)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Worldwide Fatalities by Year", fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png") 
-        else:
-            df_phase_all = df.loc[df['Phase'] == b_phase]
-
-            #Total Fatalities
-            category = 'Year'
-            numeric = 'Fatalities'
-
-            df_phase_all = df_phase_all.groupby(category)[numeric].sum()
-
-            df_phase_all = {category: df_phase_all.index,numeric: df_phase_all.values}
-            df_phase_all = pd.DataFrame(df_phase_all)
-
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.barplot(x=x, y=y,
-                            data=df_phase_all,
-                            ci=0,
-                            ) 
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=8)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Worldwide fatalities by Year during " + b_phase, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-    else:
-        if(b_phase == 'All Phases' or b_phase == None):
-            df_cause_all = df.loc[df['Cause'] == b_cause]
-
-            #Total Fatalities
-            category = 'Year'
-            numeric = 'Fatalities'
-
-            df_cause_all = df_cause_all.groupby(category)[numeric].sum()
-
-            df_cause_all = {category: df_cause_all.index,numeric: df_cause_all.values}
-            df_cause_all = pd.DataFrame(df_cause_all)
-
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.barplot(x=x, y=y,
-                            data=df_cause_all,
-                            ci=0,
-                            ) 
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=8)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Worldwide fatalities by Year caused by " + b_cause, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-        else:
-            df_cause_all = df.loc[df['Cause'] == b_cause]
-            df_cause_phase_all = df_cause_all.loc[df_cause_all['Phase'] == b_phase]
-
-            #Total Fatalities
-            category = 'Year'
-            numeric = 'Fatalities'
-
-            df_cause_phase_all = df_cause_phase_all.groupby(category)[numeric].sum()
-
-            df_cause_phase_all = {category: df_cause_phase_all.index,numeric: df_cause_phase_all.values}
-            df_cause_phase_all = pd.DataFrame(df_cause_phase_all)
-
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.barplot(x=x, y=y,
-                            data=df_cause_phase_all,
-                            ci=0,
-                            ) 
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=8)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Worldwide fatalities by Year caused by " + b_cause + ' during ' + b_phase, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-
-
-
-def bottom_line():
-    from GUI_main import GUI_run
-    df_country = df.loc[df['Country'] == b_country]
     category = 'Year'
-    numeric = 'Fatalities'
-    if (b_cause == 'All Causes' or b_cause == None):
-        if(b_phase == 'All Phases' or b_phase == None):
-            b_line_country = df_country.groupby('Year')['Fatalities'].sum()
-            category = 'Year'
-            numeric = 'Fatalities'
-            b_line_country = {category: b_line_country.index, numeric: b_line_country.values}
-            b_line_country = pd.DataFrame(b_line_country)
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
+    numeric = 'Total fatalities'
 
-            ax = sns.lineplot(x=x, y=y,
-                            data=b_line_country,
-                            ci=0,
-                            ) 
+    # group fatalities by cause:  https://datagy.io/pandas-groupby/
+    gb0 = df0.groupby(category)[numeric].sum()
 
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=10)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Fatalities by Year for " + b_country, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-
-            fig.savefig("output.png")
-        else:
-            df_phase = df_country.loc[df_country['Phase'] == b_phase]
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.lineplot(x=x, y=y,
-                            data=df_phase,
-                            ci=0,
-                            ) 
-                    
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=10)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Fatalities by Year for " + b_country + " during "  + b_phase, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-    else:
-        if(b_phase == 'All Phases' or b_phase == None):
-            df_cause = df_country.loc[df_country['Cause'] == b_cause]
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.lineplot(x=x, y=y,
-                            data=df_cause,
-                            ci=0,
-                            ) 
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=10)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Fatalities by Year for " + b_country + " caused by "  + b_cause, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-        else:
-            df_cause = df_country.loc[df_country['Cause'] == b_cause]
-            df_phase_cause = df_cause.loc[df_cause['Phase'] == b_phase]
-
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.lineplot(x=x, y=y,
-                            data=df_phase_cause,
-                            ci=0,
-                            ) 
+    print(gb0)
 
 
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
+    print("groupby as Series:") 
+    print(gb0, type(gb0))
 
-            plt.xticks(fontsize=10)
-            plt.yticks(fontsize=7)
 
-            ax.set_title("Fatalities by Year for " + b_country + " caused by "  + b_cause + " during "+ b_phase, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
 
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")  
 
-def bottom_bar():
+      # The issue (for me anyway) is that gb is not a dataframe, the left most "column"
+      # is its index (which can be non-numeric) and the right (unnamed) column has
+      # the actual values. Thing is you can't plot with that (x=index y=unnamed) so
+      # I'll create a new, separate df for plotting:
+
+    d0 = {category: gb0.index,
+        numeric: gb0.values}
+    dfgb0 = pd.DataFrame(d0)
+    dfgb0
+
+
+
+
+    #Graph Total Deaths By Year
+    name = "Deaths_By_Year_Line"
+    fig, ax = plt.subplots(figsize=(12.75,3.5))  # new plot
+    x = 'Year'
+    y = 'Total fatalities'
+
+    ax = sns.lineplot(x=x, y=y, # which columns for x and y
+                    data=dfgb0, # in which dataframe
+                    ci=0, # no error bars (much faster!)
+                    ) 
+
+
+    plt.xticks(rotation=90)
+    ax.tick_params(axis='x', which='both', labelsize=8)
+
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+
+    ax.set_title("Total Deaths by Year for " + b_country, fontsize='22')
+    ax.set_ylabel(ax.get_ylabel(), fontsize='18')
+    ax.set_xlabel(ax.get_xlabel(), fontsize='18')
+    sns.set(rc={'figure.figsize':(.2,.1)})
+
+    fig = ax.get_figure()
+    os. chdir("/Users/spencergoergen/documents/HCI_Project/images/")
+    print(os.getcwd())
+
+    fig.savefig("output.png") 
+
+def barPlot_b():
     from GUI_main import GUI_run
-    df_country = df.loc[df['Country'] == b_country]
+
+    df_bar = pd.read_csv("/Users/spencergoergen/documents/HCI_Project/Plane Crash dataset.csv")
+
+    df1 = df_bar[df_bar.Country == b_country]
+
+    #Total Fatalities
+    print("all fatalities", df_bar["Total fatalities"].sum())
+
     category = 'Year'
-    numeric = 'Fatalities'
-    if (b_cause == 'All Causes' or b_cause == None):
-        if(b_phase == 'All Phases' or b_phase == None):
-            b_line_country = df_country.groupby('Year')['Fatalities'].sum()
-            category = 'Year'
-            numeric = 'Fatalities'
-            b_line_country = {category: b_line_country.index, numeric: b_line_country.values}
-            b_line_country = pd.DataFrame(b_line_country)
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
+    numeric = 'Total fatalities'
 
-            ax = sns.barplot(x=x, y=y,
-                            data=b_line_country,
-                            ci=0,
-                            ) 
+    # group fatalities by cause:  https://datagy.io/pandas-groupby/
+    gb1 = df1.groupby(category)[numeric].sum()
 
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=8)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Fatalities by Year for " + b_country, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-
-            fig.savefig("output.png")
-        else:
-            df_phase = df_country.loc[df_country['Phase'] == b_phase]
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.barplot(x=x, y=y,
-                            data=df_phase,
-                            ci=0,
-                            ) 
-                    
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=8)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Fatalities by Year for " + b_country + " during "  + b_phase, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-    else:
-        if(b_phase == 'All Phases' or b_phase == None):
-            df_cause = df_country.loc[df_country['Cause'] == b_cause]
- 
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.barplot(x=x, y=y,
-                            data=df_cause,
-                            ci=0,
-                            ) 
-
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
-
-            plt.xticks(fontsize=8)
-            plt.yticks(fontsize=7)
-
-            ax.set_title("Fatalities by Year for " + b_country + " caused by "  + b_cause, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
-
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")
-        else:
-            df_cause = df_country.loc[df_country['Cause'] == b_cause]
-            df_phase_cause = df_cause.loc[df_cause['Phase'] == b_phase]
-
-            fig, ax = plt.subplots(figsize=(13.5,3.5))  # new plot
-            x = 'Year'
-            y = 'Fatalities'
-
-            ax = sns.barplot(x=x, y=y,
-                            data=df_phase_cause,
-                            ci=0,
-                            ) 
+    print(gb1)
 
 
-            plt.xticks(rotation=90)
-            ax.tick_params(axis='x', which='both', labelsize=8)
+    print("groupby as Series:") 
+    print(gb1, type(gb1))
 
-            plt.xticks(fontsize=8)
-            plt.yticks(fontsize=7)
 
-            ax.set_title("Fatalities by Year for " + b_country + " caused by "  + b_cause + " during "+ b_phase, fontsize='18')
-            ax.set_ylabel(ax.get_ylabel(), fontsize='14')
-            ax.set_xlabel(" ", fontsize='1')
+    # The issue (for me anyway) is that gb is not a dataframe, the left most "column"
+    # is its index (which can be non-numeric) and the right (unnamed) column has
+    # the actual values. Thing is you can't plot with that (x=index y=unnamed) so
+    # I'll create a new, separate df for plotting:
 
-            plt.subplots_adjust(bottom=0.15)
-            fig = ax.get_figure()
-            fig.savefig("output.png")  
+    d1 = {category: gb1.index,
+        numeric: gb1.values}
+    dfgb1 = pd.DataFrame(d1)
+    dfgb1
+
+    # Plot Graph
+    fig, ax = plt.subplots(figsize=(12.75,3.5))  # new plot
+
+    ax = sns.barplot(x="Year", y="Total fatalities", # which columns for x and y
+                        data=dfgb1, # in which dataframe
+                        ci=0, # no error bars (much faster!)
+                        ) 
+
+
+    plt.xticks(rotation=90)
+
+    ax.set_title("Fatalities by Year for " + b_country, fontsize='22')
+
+    ax.set_ylim(0,1000)
+    ax.set_ylabel(ax.get_ylabel(), fontsize='18')
+    ax.set_xlabel(ax.get_xlabel(), fontsize='18')
+    plt.yticks(fontsize=12)
+    plt.xticks(fontsize=12)
+
+    fig = ax.get_figure()
+    os. chdir("/Users/spencergoergen/documents/HCI_Project/images/")
+    print(os.getcwd())
+
+    fig.savefig("output.png")
 
 
 
+# Run
+
+GUI_run()
