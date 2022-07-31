@@ -4,10 +4,12 @@ Plane Crash Data Science Project
 
 #### Run Program by run.py
 
+### Project structure:
 - sketch.md: Sketch Image of GUI / Application.
 - spec.md: Project Specifications
 - run.py: Runs Program
 - GUI_main: Main python file
+- /images: output graphs
 
 ### Version 3 (Final)
 - GUI_main complete
@@ -33,11 +35,6 @@ Plane Crash Data Science Project
   - Fatalities by Crash Cause (Side by Side Bar Graph)
   - Fatalities by Year for Specific Countries (Bar + Line Graph)
 - V1.0 GUI (see below)
-
-### Project structure:
-- GUI_main.py - python file of Program
-- run.py - Run GUI
-- images - Output Graph images
 
 # Version 3 GUI Final
 <img width="1664" alt="Screen Shot 2022-07-31 at 7 21 48 PM" src="https://user-images.githubusercontent.com/106708967/182049482-aa651bcf-dbc8-44b0-9112-f95ee7e2d30d.png">
