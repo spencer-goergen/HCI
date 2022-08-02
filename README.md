@@ -1,8 +1,8 @@
 # HCI 584X: Plane Crashes from 1918-2022
 ## Spencer Goergen
-Plane Crash Data Science Project
+#Plane Crash Data Science Project
 
-#### Run Program by run.py
+### Run Program by run.py
 
 ### Project structure:
 - sketch.md: Sketch Image of GUI / Application.
