@@ -24,5 +24,6 @@
 - If no graph is displayed, graph is returing 0 fatalities for selection
 
 # Tutorial
+![ezgif com-gif-maker (8)](https://user-images.githubusercontent.com/106708967/182272543-5b52ddd3-3831-4e3b-b21e-e9eb28e52dd7.gif)
 
 
