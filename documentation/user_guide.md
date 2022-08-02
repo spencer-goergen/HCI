@@ -11,3 +11,18 @@
 - Seaborn 0.11.2 or newer
   - pip3 install seaborn
 
+# How to use
+
+- Run "run.py" after installations
+- Select options from drop down menus
+- You may 'Type' your selections as well
+- Click "Refresh" for top or bottom graphs
+
+# Errors
+
+- No errors should be expected
+- If no graph is displayed, graph is returing 0 fatalities for selection
+
+# Tutorial
+
+
