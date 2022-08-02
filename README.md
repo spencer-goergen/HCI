@@ -10,6 +10,7 @@
 - run.py: Runs Program
 - GUI_main: Main python file
 - /images: output graphs
+- /documentation: User Guide and Developer's Documentation
 
 ### Version 3 (Final)
 - GUI_main complete
