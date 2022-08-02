@@ -20,10 +20,9 @@
 
 # Errors
 
-- No errors should be expected
-- If no graph is displayed, graph is returing 0 fatalities for selection
+- For bar graphs: If no graph can be created, an error pop-up is displayed
+- For line graphs: If no graph is displayed, graph is returing 0 fatalities for selection
 
 # Tutorial
 ![ezgif com-gif-maker (8)](https://user-images.githubusercontent.com/106708967/182272543-5b52ddd3-3831-4e3b-b21e-e9eb28e52dd7.gif)
-
 
