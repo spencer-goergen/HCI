@@ -10,13 +10,14 @@
 - run.py: Runs Program
 - GUI_main: Main python file
 - requirements.txt: module versions requirements
-- /images: output graphs
+- /images: output graphs (used in program)
 - /documentation: User Guide and Developer's Documentation
 
 ### Version 3 (Final)
 - GUI_main complete
 - Select drop-down for country, cause, phase
 - Top and Bottom graph
+- Error pop-up window
 
 ### Version 2
 - All code congregated into 1 file (GUI_main)
