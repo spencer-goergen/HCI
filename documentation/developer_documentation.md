@@ -58,7 +58,7 @@ Layout:
 - os.chdir('images') move back to images
 - sg.Window creates window with title and layout assigned above
 
-#### while True
+#### while True:
 
 How program takes inputs and re-directs to graph creating function
 
@@ -73,7 +73,13 @@ else:
    t_graph = values['t_graph_menu']
 
 - This if/else checks for what option is selected from the menu drop down and displays that option in the window
-- 
 
+
+if event=='Refresh Top Image':  
+
+- This event checks when the Refresh button is selected, and then re-directs to the appropriate function
+- t_graph == 'Line Graph' or t_graph == None
+  - t_graph default is Line Graph, but before selected reads out 'None', so this accounts for both
+  - window['top_graph'].Update(filename='output.png') is replacing the graph image from the function that just ran
 
 
