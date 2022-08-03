@@ -82,4 +82,48 @@ if event=='Refresh Top Image':
   - t_graph default is Line Graph, but before selected reads out 'None', so this accounts for both
   - window['top_graph'].Update(filename='output.png') is replacing the graph image from the function that just ran
 
+#### Graph Functions
+
+Top Graph Functions
+- def line_plot_all_top():
+- def bar_plot_all_top():
+- def top_line():
+- def top_bar():
+
+Bottom Graph Functions
+- def line_plot_all_bottom():
+- def bar_plot_all_bottom():
+- def bottom_line():
+- def bottom_bar():
+
+Difference between line_plot_all_top() and top_line()
+- '_all_' function is not limiting by country, '_line()' function does
+
+Difference between top_bar() and top_line()
+- ax = sns.lineplot
+- ax = sns.barplot
+
+Outside of these differences, the functions are nearly identical.
+Only def top_line() will be commented on here. (in code, line_plot_all_top() has comments).
+
+## def top_line()
+
+# Main
+
+- GUI_run is imported
+- df_country = df.loc[df['Country'] == t_country]
+  - df.loc is limiting the dataframe by a specific [Column == element]
+- if/else statemnts for Cause and Phase
+  - This creates a graph based on the user's inputs from the GUI
+- df_country.groupby('Year')['Fatalities'].sum()
+  - This is summing up all fatalites by year from the dataframe
+- {category: t_line_country.index, numeric: t_line_country.values}
+  - Creating index and values from dataframe
+  - pd.Dataframe() creates new dataframe
+
+# Creating Graph
+
+- 
+
+
 
