@@ -17,7 +17,7 @@ This ensures that there is only one instance of GUI_run()
 
 Rest of program
 
-### Main
+## Main
 
 - Import Modules
 - create default dataframe 'df' from Dataset.csv
@@ -28,7 +28,7 @@ Rest of program
 - Assign default variables
 
 
-### GUI Layout
+## GUI Layout
 
 3 Columns are in the layout
 
@@ -52,13 +52,13 @@ Layout:
 - sg.VSeperator() adds a line vector to seperate Column1 and Column2
 
 
-### GUI_run()
+## GUI_run()
 
-#### Main
+### Main
 - os.chdir('images') move back to images
 - sg.Window creates window with title and layout assigned above
 
-#### while True:
+### while True:
 
 How program takes inputs and re-directs to graph creating function
 
@@ -82,7 +82,7 @@ if event=='Refresh Top Image':
   - t_graph default is Line Graph, but before selected reads out 'None', so this accounts for both
   - window['top_graph'].Update(filename='output.png') is replacing the graph image from the function that just ran
 
-#### Graph Functions
+### Graph Functions
 
 Top Graph Functions
 - def line_plot_all_top():
@@ -106,9 +106,9 @@ Difference between top_bar() and top_line()
 Outside of these differences, the functions are nearly identical.
 Only def top_line() will be commented on here. (in code, line_plot_all_top() has comments).
 
-##### def top_line()
+### def top_line()
 
-###### Main
+#### Main
 
 - GUI_run is imported
 - df_country = df.loc[df['Country'] == t_country]
@@ -121,7 +121,7 @@ Only def top_line() will be commented on here. (in code, line_plot_all_top() has
   - Creating index and values from dataframe
   - pd.Dataframe() creates new dataframe
 
-###### Creating Graph
+#### Creating Graph
 
 - 
 
