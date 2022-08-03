@@ -9,6 +9,7 @@
 - spec.md: Project Specifications
 - run.py: Runs Program
 - GUI_main: Main python file
+- requirements.txt: module versions requirements
 - /images: output graphs
 - /documentation: User Guide and Developer's Documentation
 
