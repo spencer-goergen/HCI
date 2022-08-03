@@ -106,9 +106,9 @@ Difference between top_bar() and top_line()
 Outside of these differences, the functions are nearly identical.
 Only def top_line() will be commented on here. (in code, line_plot_all_top() has comments).
 
-## def top_line()
+##### def top_line()
 
-# Main
+###### Main
 
 - GUI_run is imported
 - df_country = df.loc[df['Country'] == t_country]
@@ -121,7 +121,7 @@ Only def top_line() will be commented on here. (in code, line_plot_all_top() has
   - Creating index and values from dataframe
   - pd.Dataframe() creates new dataframe
 
-# Creating Graph
+###### Creating Graph
 
 - 
 
