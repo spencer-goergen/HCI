@@ -1,10 +1,31 @@
-# Modules
+# Overview
+
+This program is aimed at allowing the user to compare between two graphs on plane crash fatalities. This can be filtered by country, crash cause and phase of the flight.
+
+The current version of the program is Version 3.
+
+The program is run directly through run.py in the downloaded code. No online connection necessary.
+
+# Modules Installation
 
 - Python v3.6 or newer
   - pip3 install pysimplegui
   - pip3 install pandas
   - pip3 install Matplotlib
   - pip3 install seaborn
+
+# User Flow Walkthrough
+
+- Users opens program to be greeted by two default graphs (worldwide fatalites in line and bar graph form)
+- User may select options from the drop-down menu
+- User clicks "Refresh Top Graph" button to run the functions and create a new graph
+- If an error appears, the user will be given a pop-up with an "OK" button to clear
+
+<img width="1662" alt="Screen Shot 2022-08-03 at 9 13 43 AM" src="https://user-images.githubusercontent.com/106708967/182616659-b7b87c70-6405-499d-b54e-4909a687e93c.png">
+
+
+# Code Flow Walkthrough
+
 
 # run.py
 
@@ -136,3 +157,20 @@ Only def top_line() will be commented on here. (in code, line_plot_all_top() has
 - fig = ax.get_figure() retrieves graph
 - fig.savefig("output.png") saves graph
 - fig.clear() clears cache
+
+
+### Known Issues
+
+- All GUI and Graph issues are currently fixed
+- Currently, once 20 graphs are generated, a warning is given that suggests memory is being highly utuilized
+
+### Future Work
+
+- More dropdown filtration
+- Having two+ countries in the same graph
+- Having a varied y-axis
+- Moving to an web GUI module that allows for better interaction
+
+### Ongoing Development
+
+- All development is final at this time
