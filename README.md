@@ -2,7 +2,7 @@
 ## Plane Crash Data Science Project
 ### Spencer Goergen
 
-### Run Program by run.py
+### [Run Program by run.py]
 
 ### Project structure:
 - sketch.md: Sketch Image of GUI / Application.
