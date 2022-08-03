@@ -61,31 +61,36 @@ Tasks 3-X:
 
 
 Data structures: 
-- pandas dataframe (I think?), each containing data about each crash (date, location, fatalities, etc) that's been grabbed in .csv file
-- a dict that stores all the current values for all the necessary fields
+- pandas dataframe, each containing data about each crash (date, location, fatalities, etc) that's pulled in from the .csv file
 
 Core functions:
 
-- def get_crash_data(crash_cause, crash_site, crash_country, crash_survivors):
-    - scrapes data from the .csv according to arguments
-    - if any arguement is None, data is disregarded
-    - returns a pandas dataframe or error string
+- def GUI_main()
+    - retrieves current state of GUI menu buttons
+    - re-directs to correct function
 
-- def draw_graph(unsure (?)):
-    - draws graph from the dataframe into a simple line plot
-    - needs to also update the graph legend
+- def line_plot_all_top()
+    - if/else statements for Cause/Phases selection
+    - creates dataframe by limiting country, then cause, then phase
+    - creates graph, saves graph as "output.png", and displays graph on GUI
+    - (repeat for top_line(), line_plot_all_bottom(), and bottom_line())
+
+- def bar_plot_all_top()
+    - if/else statements for Cause/Phases selection
+    - creates dataframe by limiting country, then cause, then phase
+    - if/else statements for no fatalities, displays "Error Pop-up"
+    - creates graph, saves graph as "output.png", and displays graph on GUI
+    - (repeat for top_bar(), bar_plot_all_bottom(), and bottom_bar())
 
 
 Program flow:
-- (Somehow) the main page creates a GUI that enables the user to select from dropdowns
+- The GUI enables the user to select from dropdowns
 - The graph is rendered with defaults
 - As new filters are selected, then the refresh button is clicked, the graph refreshes
-- Changes in the GUI fields must be collected and stored in python files.
+- Changes in the GUI fields is collected and stored in python files.
 
 
-
-
-## Final Self Assessment
+## Final Self Assessment (1/2 point of Summer)
 
 - I realized I don't know API's / Modules very well yet. I need to understand the differences between Pandas, NumPy and Seaborn better.
 - I don't yet know how the webapp will be created, using what API
