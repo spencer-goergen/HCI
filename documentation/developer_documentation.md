@@ -52,8 +52,28 @@ Layout:
 - sg.VSeperator() adds a line vector to seperate Column1 and Column2
 
 
+### GUI_run()
 
+#### Main
+- os.chdir('images') move back to images
+- sg.Window creates window with title and layout assigned above
 
+#### while True
+
+How program takes inputs and re-directs to graph creating function
+
+- plt.style.use() assigns style of graphs
+- gloabl variables are brought in
+- events, values = window.read() reads values from window
+- Exit on clicking "exit"
+
+if values['t_graph_menu'] == "Line Graph":
+   t_graph = values['t_graph_menu']
+else:
+   t_graph = values['t_graph_menu']
+
+- This if/else checks for what option is selected from the menu drop down and displays that option in the window
+- 
 
 
 
