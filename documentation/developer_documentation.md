@@ -123,7 +123,16 @@ Only def top_line() will be commented on here. (in code, line_plot_all_top() has
 
 #### Creating Graph
 
-- 
+- fig, ax = plt.subplots() creates figure and its size
+- category, x = 'Year'; numeric, y = 'Fatalities
+- ax = sns.lineplot() using dataframe and ci=0 for no error bars
 
+- plt.xticks, yticks these are the years (1942,1943,1943) and fatatalites (0-5000)
+- ax.tick_params sets the size and axis
+- ax.set_title is the Title of graph
+- ax.set_x/ylabel is the labels on axises
+- plt.subplots_adjust(bottom=0.15) creates room for clearance at the bottom of the graph
 
-
+- fig = ax.get_figure() retrieves graph
+- fig.savefig("output.png") saves graph
+- fig.clear() clears cache
