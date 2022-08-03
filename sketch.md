@@ -1,6 +1,6 @@
 # Plane Crashes From 1918-2022
 
-# Initial Sketches
+#### Initial GUI sketches, Version 1 and 2
 
 ### Version 2 (Final)
 
