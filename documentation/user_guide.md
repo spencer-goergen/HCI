@@ -15,6 +15,7 @@ Or run "pip3 -r requirements.txt"
 - Select options from drop down menus
 - You may 'Type' your selections as well
 - Click "Refresh" for top or bottom graphs
+- Click "Ok" on error pop-ups to clear
 
 # Errors
 
