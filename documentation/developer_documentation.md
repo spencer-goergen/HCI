@@ -1,4 +1,4 @@
-## Modules
+# Modules
 
 - Python v3.6 or newer
   - pip3 install pysimplegui
@@ -6,14 +6,14 @@
   - pip3 install Matplotlib
   - pip3 install seaborn
 
-## run.py
+# run.py
 
 - Imports GUI_main
 - Runs GUI_run()
 
 This ensures that there is only one instance of GUI_run()
 
-## GUI_main
+# GUI_main.py
 
 Rest of program
 
