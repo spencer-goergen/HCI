@@ -1,13 +1,8 @@
 # User Guide
 
-# Installation
-- Python v3.6 or newer
-  - pip3 install pysimplegui
-  - pip3 install pandas
-  - pip3 install Matplotlib
-  - pip3 install seaborn
+# Requirements
 
-Or run "pip3 -r requirements.txt"
+Run "pip3 -r requirements.txt"
 
 # How to use
 
