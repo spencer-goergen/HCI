@@ -9,7 +9,7 @@ df = pd.read_csv("Dataset.csv")
 
 # Menus for GUI
 button_menu_def_graph = ['Line Graph', 'Bar Graph']
-button_menu_def_country = ['All Countries','Afghanistan', 'Albania', 'Algeria', 'Angola', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo', 'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czechia', 'Denmark', 'Djibouti', 'Ecuador', 'Egypt', 'El Salvador', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Guatemala', 'Guinea', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kuwait', 'Krygyzstan', 'Laos', 'Latvia', 'Lebanon', 'Liberia', 'Libya', 'Madagascar', 'Malaysia', 'Maldives', 'Mali', 'Mexico', 'Moldova', 'Mongolia', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea', 'Norway', 'Oman', 'Pakistan', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saudi Arabia', 'Senegal', 'Serbia', 'Singapore', 'Slovakia', 'South Africa', 'South Korea', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Sweden', 'Switzerland', 'Syria', 'Tajikistan', 'Tanzania', 'Thailand', 'Turkey', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States of America', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe']
+button_menu_def_country = ['All Countries', 'United States of America', 'Afghanistan', 'Albania', 'Algeria', 'Angola', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo', 'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czechia', 'Denmark', 'Djibouti', 'Ecuador', 'Egypt', 'El Salvador', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Guatemala', 'Guinea', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kuwait', 'Krygyzstan', 'Laos', 'Latvia', 'Lebanon', 'Liberia', 'Libya', 'Madagascar', 'Malaysia', 'Maldives', 'Mali', 'Mexico', 'Moldova', 'Mongolia', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea', 'Norway', 'Oman', 'Pakistan', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saudi Arabia', 'Senegal', 'Serbia', 'Singapore', 'Slovakia', 'South Africa', 'South Korea', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Sweden', 'Switzerland', 'Syria', 'Tajikistan', 'Tanzania', 'Thailand', 'Turkey', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States of America', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe']
 button_menu_def_cause = ['All Causes', 'Technical failure', 'Terrorism', 'Weather', 'Human factor', 'Other']
 button_menu_def_phase = ['All Phases', 'Flight', 'Landing', 'Parking', 'Takeoff','Taxiing']
 
@@ -41,18 +41,18 @@ column1 = [
         [sg.Text(' ')], #Space between outputs
         [sg.Text(' ')], #Space between outputs
         [sg.Text(' ')], #Space between outputs
-        [sg.Combo((button_menu_def_graph),font = ('Calibri 11'), size = (24,2), expand_y = True, default_value='Line Graph', key='t_graph_menu')],
-        [sg.Combo((button_menu_def_country),font = ('Calibri 11'), size = (24,6), expand_y = True, default_value='All Countries', key='t_country_menu')],
-        [sg.Combo((button_menu_def_cause),font = ('Calibri 11'), size = (24,10), expand_y = True, default_value='All Causes', key='t_cause_menu')],
-        [sg.Combo((button_menu_def_phase),font = ('Calibri 11'), size = (24,10), expand_y = True, default_value='All Phases', key='t_phase_menu')],
+        [sg.Combo((button_menu_def_graph),font = ('Calibri 11'),readonly = True, size = (24,2),  expand_y = True, default_value='Line Graph', key='t_graph_menu')],
+        [sg.Combo((button_menu_def_country),font = ('Calibri 11'), readonly = True, size = (24,6), expand_y = True, default_value='All Countries', key='t_country_menu')],
+        [sg.Combo((button_menu_def_cause),font = ('Calibri 11'), readonly = True, size = (24,10), expand_y = True, default_value='All Causes', key='t_cause_menu')],
+        [sg.Combo((button_menu_def_phase),font = ('Calibri 11'), readonly = True, size = (24,10), expand_y = True, default_value='All Phases', key='t_phase_menu')],
         [sg.Button(('Refresh Top Image'), font = ('Calibri 12'))],
         [sg.Text(' ')], #Space between outputs
         [sg.Text(' ')], #Space between outputs
         [sg.Text(' ')], #Space between outputs
-        [sg.Combo((button_menu_def_graph),font = ('Calibri 11'), size = (24,2), expand_y = True, default_value='Bar Graph', key='b_graph_menu')],
-        [sg.Combo((button_menu_def_country),font = ('Calibri 11'), size = (24,6), expand_y = True, default_value='All Countries', key='b_country_menu')],
-        [sg.Combo((button_menu_def_cause),font = ('Calibri 11'), size = (24,10), expand_y = True, default_value='All Causes', key='b_cause_menu')],
-        [sg.Combo((button_menu_def_phase),font = ('Calibri 11'), size = (24,10), expand_y = True, default_value='All Phases', key='b_phase_menu')],
+        [sg.Combo((button_menu_def_graph),font = ('Calibri 11'), readonly = True, size = (24,2), expand_y = True, default_value='Bar Graph', key='b_graph_menu')],
+        [sg.Combo((button_menu_def_country),font = ('Calibri 11'), readonly = True, size = (24,6), expand_y = True, default_value='All Countries', key='b_country_menu')],
+        [sg.Combo((button_menu_def_cause),font = ('Calibri 11'), readonly = True, size = (24,10), expand_y = True, default_value='All Causes', key='b_cause_menu')],
+        [sg.Combo((button_menu_def_phase),font = ('Calibri 11'), readonly = True, size = (24,10), expand_y = True, default_value='All Phases', key='b_phase_menu')],
         [sg.Button(('Refresh Bottom Image'), font = ('Calibri 12'))],
         [sg.Text(' ')], #Space between outputs
         [sg.Text(' ')], #Space between outputs
